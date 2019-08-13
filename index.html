@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css?family=Righteous&display=swap" rel="stylesheet">
+  <title>Album Covers</title>
+</head>
+<body>
+
+  <h1>"UNDFTD"</h1>
+  <div class="row-1">
+    <img src="image/aj-album-cover.png" alt="aj cover" id="ajAlbumCover" class="playableAlbumCover">
+    <img src="image/grace-album-cover.png" alt="grace cover" id="graceAlbumCover" class="playableAlbumCover">
+    <img src="image/jonathan-album-cover.png" alt="jonathan cover" id="jonathanAlbumCover" class="playableAlbumCover">
+  </div>
+
+  <div class="row-2">
+    <img src="image/madison-album-cover-2.png" alt="madison cover" id="madisonAlbumCover" class="playableAlbumCover">
+    <img src="image/jordan-album-cover.png" alt="jordan cover" id="jordanAlbumCover" class="playableAlbumCover" >
+    <img src="image/myles-album-cover.png" alt="myles cover" id="mylesAlbumCover" class="playableAlbumCover">
+  </div>
+
+  <div class="row-3">
+    <img src="image/alva-album-cover.png" alt="alva cover" id="alvaAlbumCover" class="playableAlbumCover">
+    <img src="image/aaron-album-cover.png" alt="aaron cover" id="aaronAlbumCover" class="playableAlbumCover">
+    <img src="image/darryl-album-cover.png" alt="darryl cover" id="darrylAlbumCover" class="playableAlbumCover">
+  </div>
+
+
+
+  <footer>A creative endeavor</footer>
+  <footer>by: @lourdeaaron</footer>
+  <footer>Muisc by: @nawnhuman</footer>
+  <footer>Web Design: @lourdeaaron and @jonathan.powell</footer>
+
+  <!--
+  1. Add the rest of the audio elements
+  2. Give each of them a data-id. make it the same as the id of the album associated with it.
+
+
+ -->
+  <audio src="sound/alva-album-music.mp3"  data-id="alvaAlbumCover" > </audio>
+  <audio src="sound/darryl-album-music.mp3" data-id="darrylAlbumCover"> </audio>
+  <audio src="sound/jonathan-album-music.mp3" data-id="jonathanAlbumCover"> </audio>
+  <audio src="sound/jordan-album-music.m4a" data-id="jordanAlbumCover"> </audio>
+  <audio src="sound/madison-album-music.m4a" data-id="madisonAlbumCover"> </audio>
+  <audio src="sound/myles-album-music.mp3" data-id="mylesAlbumCover"> </audio>
+  <audio src="sound/aaron-album-music.mp3" data-id="aaronAlbumCover"> </audio>
+  <audio src="sound/aj-album-music.mp3" data-id="ajAlbumCover"> </audio>
+  <audio src="sound/grace-album-music.mp3" data-id="graceAlbumCover"> </audio>
+
+
+
+
+  <script>
+    const allAlbumCovers = document.querySelectorAll(".playableAlbumCover");
+    //1. Add an onClick event listener to play sound when clicked
+    let currentElementPlayingMusic = null;
+    //Plays the music of the clicked element, or pauses it if music is playing
+    /*
+    1. Need a variable to keep track of the current element thats playing imageMusic
+    2. Need an if statement to check if we need to pause, or
+      if we need to start playing music on a new element.
+
+    */
+    function toggleMusic(e) {
+        const eventElementPlayingMusic = e.currentTarget.id;
+
+        //If you haven't played anything yet, set the currentELement to be the one you clicked
+        if (currentElementPlayingMusic == null) {
+          currentElementPlayingMusic = eventElementPlayingMusic;
+        }
+
+        const imageMusic = document.querySelector(`audio[data-id="${e.currentTarget.id}"]`);
+        const imageElement = document.getElementById(`${e.currentTarget.id}`);
+
+        if (!imageMusic) {
+          return;
+        }
+
+        //If you clicked on the same image that is already playing music, just pause it, or play it.
+        if (currentElementPlayingMusic === eventElementPlayingMusic) {
+          if (imageMusic.paused) {
+            imageMusic.play();
+            imageElement.classList.add("playing");
+          } else {
+            imageMusic.pause();
+            imageElement.classList.remove("playing");
+
+          }
+
+          //If you clicked on a separate image, we want to stop the current music playing, and then play the imageMusic
+          //for the one you just clickd.
+        } else {
+          //1. Stop the music that's being played
+          const currentElementMusic = document.querySelector(`audio[data-id="${currentElementPlayingMusic}"]`);
+          const currentElement = document.getElementById(`${currentElementPlayingMusic}`);
+          currentElement.classList.remove("playing");
+          currentElementMusic.pause();
+
+          //2. Reset that element's audio to be at 0, so it will play music from the beginning if you go back to it
+          currentElementMusic.currentTime = 0;
+
+
+
+          //3. PLay the music for the image you just clicked
+          imageMusic.play();
+          currentElementPlayingMusic = e.currentTarget.id;
+          document.getElementById(`${e.currentTarget.id}`).classList.add("playing");
+        }
+    }
+
+    allAlbumCovers.forEach(albumCover => albumCover.addEventListener("click", toggleMusic));
+   </script>
+</body>
+</html>
