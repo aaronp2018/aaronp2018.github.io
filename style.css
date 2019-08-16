@@ -159,3 +159,16 @@ a:hover {
       transition: none !important;
     }
 }
+
+@media screen and (max-width: 900px) {
+  h1{font-size: 48px;
+  }
+  img{ height: auto;
+       width: 80%;
+  }
+  .row-1{ display: block;
+  }
+  .row-2{display: block;
+  }
+  .row-3{display: block;}
+}
